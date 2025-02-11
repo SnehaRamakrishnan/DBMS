@@ -1,0 +1,100 @@
+
+CREATE TABLE Sailors (
+    Sid INT PRIMARY KEY,  
+    Sname VARCHAR(50),    
+    Rating INT,           
+    Age INT              
+);
+
+
+INSERT INTO Sailors (Sid, Sname, Rating, Age) VALUES
+(1, 'John', 5, 25),
+(2, 'Alice', 4, 30),
+(3, 'Bob', 3, 22),
+(4, 'Charlie', 4, 28);
+
+
+CREATE TABLE Boats (
+    Bid INT PRIMARY KEY, 
+    Bname VARCHAR(50),    
+    Color VARCHAR(20)     
+);
+
+INSERT INTO Boats (Bid, Bname, Color) VALUES
+(101, 'BoatA', 'Red'),
+(102, 'BoatB', 'Blue'),
+(103, 'BoatC', 'Red'),
+(104, 'BoatD', 'Green'); 
+
+CREATE TABLE Reserves (
+    Sid INT,              
+    Bid INT,            
+    Day DATE,             
+    PRIMARY KEY (Sid, Bid, Day),
+    FOREIGN KEY (Sid) REFERENCES Sailors(Sid),
+    FOREIGN KEY (Bid) REFERENCES Boats(Bid)
+);
+INSERT INTO Reserves (Sid, Bid, Day) VALUES
+(1, 101, '2025-02-10'),
+(1, 103, '2025-02-11'),
+(2, 102, '2025-02-10'),
+(3, 104, '2025-02-09'),
+(4, 101, '2025-02-11'),
+(4, 103, '2025-02-11');
+
+
+
+A) 
+SELECT * 
+FROM Sailors 
+WHERE Sid IN (
+    SELECT Sid 
+    FROM Reserves 
+    WHERE Bid = 101 OR Bid = 103
+);
+
+B) SELECT Sname
+FROM Sailors
+WHERE Sid IN (
+    SELECT DISTINCT Sid
+    FROM Reserves
+);
+
+C)
+   SELECT Sname
+FROM Sailors
+WHERE Sid IN (
+    SELECT Sid
+    FROM Reserves R
+    JOIN Boats B ON R.Bid = B.Bid
+    WHERE B.Color = 'Red'
+)
+ORDER BY Age;
+
+D) SELECT DISTINCT R1.Sid, S.Sname
+FROM Reserves R1, Reserves R2, Sailors S
+WHERE R1.Sid = R2.Sid
+AND R1.Bid != R2.Bid
+AND R1.Day = R2.Day
+AND R1.Sid = S.Sid;
+
+E) SELECT Sname, Age
+FROM Sailors
+WHERE Age = (
+    SELECT MIN(Age)
+    FROM Sailors
+);
+
+F)
+   SELECT Sname
+FROM Sailors
+WHERE NOT EXISTS (
+    SELECT Bid
+    FROM Boats
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM Reserves
+        WHERE Reserves.Sid = Sailors.Sid AND Reserves.Bid = Boats.Bid
+    )
+);
+
