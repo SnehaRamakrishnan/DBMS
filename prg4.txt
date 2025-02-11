@@ -1,0 +1,94 @@
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY,         
+    CategoryName VARCHAR2(100),         
+    Description VARCHAR2(4000)         
+);
+
+INSERT INTO Categories (CategoryID, CategoryName, Description)
+VALUES (1, 'Electronics', 'Devices and gadgets like phones, laptops, and accessories');
+
+INSERT INTO Categories (CategoryID, CategoryName, Description)
+VALUES (2, 'Clothing', 'Apparel including shirts, pants, and jackets');
+
+INSERT INTO Categories (CategoryID, CategoryName, Description)
+VALUES (3, 'Furniture', 'Furniture items such as tables, chairs, and sofas');
+
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,          
+    ProductName VARCHAR2(100),          
+    CategoryID INT,                     
+    Price NUMBER(10, 2),                
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID) 
+);
+
+INSERT INTO Products (ProductID, ProductName, CategoryID, Price)
+VALUES (1, 'Laptop', 1, 799.99);
+
+INSERT INTO Products (ProductID, ProductName, CategoryID, Price)
+VALUES (2, 'Smartphone', 1, 499.99);
+
+INSERT INTO Products (ProductID, ProductName, CategoryID, Price)
+VALUES (3, 'T-Shirt', 2, 19.99);
+
+INSERT INTO Products (ProductID, ProductName, CategoryID, Price)
+VALUES (4, 'Sofa', 3, 599.99);
+
+INSERT INTO Products (ProductID, ProductName, CategoryID, Price)
+VALUES (5, 'Jacket', 2, 89.99);
+
+
+
+\\ INNER JOIN
+
+SELECT p.ProductID, p.ProductName, p.Price, c.CategoryName
+FROM Products p
+INNER JOIN Categories c ON p.CategoryID = c.CategoryID
+ORDER BY p.Price;
+
+\\LEFT JOIN
+
+SELECT p.ProductID, p.ProductName, p.Price, c.CategoryName
+FROM Products p
+LEFT JOIN Categories c ON p.CategoryID = c.CategoryID;
+
+\\RIGHT JOIN
+
+SELECT p.ProductID, p.ProductName, p.Price, c.CategoryName
+FROM Products p
+RIGHT JOIN Categories c ON p.CategoryID = c.CategoryID
+WHERE UPPER(c.CategoryName) = 'CLOTHING';
+
+
+\\FULL JOIN
+SELECT p.ProductID, p.ProductName, p.Price, c.CategoryName
+FROM Products p
+FULL JOIN Categories c ON p.CategoryID = c.CategoryID
+ORDER BY p.Price;
+
+\\NATURAL JOIN
+
+SELECT p.ProductID, p.ProductName, p.Price, c.CategoryName
+FROM Products p
+NATURAL JOIN Categories c
+WHERE p.Price = (SELECT MAX(Price) FROM Products);
+
+
+
+
+SET LINESIZE 200;
+SET PAGESIZE 50;
+COLUMN PRODUCTID FORMAT 9999;
+COLUMN PRODUCTNAME FORMAT A20;
+COLUMN CATEGORYID FORMAT 999;
+COLUMN PRICE FORMAT 9999.99;
+select * from products;
+\
+SET LINESIZE 200;
+SET PAGESIZE 50;
+COLUMN CATEGORYID FORMAT 999;
+COLUMN CATEGORYNAME FORMAT A15;
+COLUMN DESCRIPTION FORMAT A50;
+SELECT * FROM Categories;
+
+
