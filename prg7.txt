@@ -1,0 +1,36 @@
+CREATE TABLE Savings (
+    CustomerID INT,
+    Name VARCHAR(50),
+    TransactionAmount DECIMAL(10, 2)
+);
+
+
+INSERT ALL
+    INTO Savings (CustomerID, Name, TransactionAmount) VALUES (1, 'John Doe', 150.00)
+    INTO Savings (CustomerID, Name, TransactionAmount) VALUES (2, 'Jane Smith', 200.00)
+    INTO Savings (CustomerID, Name, TransactionAmount) VALUES (3, 'Alice Johnson', 300.00)
+    INTO Savings (CustomerID, Name, TransactionAmount) VALUES (4, 'Bob Brown', 50.00)
+SELECT * FROM dual;
+
+CREATE TABLE CreditCard (
+    CustomerID INT,
+    Name VARCHAR(50),
+    TransactionAmount DECIMAL(10, 2)
+);
+
+
+INSERT ALL
+    INTO CreditCard (CustomerID, Name, TransactionAmount) VALUES (1, 'John Doe', 100.00)
+    INTO CreditCard (CustomerID, Name, TransactionAmount) VALUES (2, 'Jane Smith', 250.00)
+    INTO CreditCard (CustomerID, Name, TransactionAmount) VALUES (5, 'Charlie White', 400.00)
+    INTO CreditCard (CustomerID, Name, TransactionAmount) VALUES (6, 'David Green', 500.00)
+SELECT * FROM dual;
+
+
+A)
+SELECT CustomerID, Name
+FROM Savings
+UNION
+SELECT CustomerID, Name
+FROM CreditCardTransaction;
+
