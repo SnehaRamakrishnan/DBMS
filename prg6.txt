@@ -1,0 +1,59 @@
+
+CREATE TABLE Sailor (
+    sailor_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT,
+    rating INT
+);
+
+
+INSERT INTO Sailor (sailor_id, name, age, rating)
+VALUES
+(1, 'John', 22, 5),
+(2, 'Priya', 19, 4),
+(3, 'Peter', 27, 3),
+(4, 'Maya', 30, 4),
+(5, 'Paul', 25, 5),
+(6, 'Nina', 23, 4),
+(7, 'Ravi', 28, 3);
+
+
+A)
+SELECT name, age
+FROM Sailor
+WHERE age = (SELECT MIN(age) FROM Sailor);
+
+B)
+SELECT rating, AVG(age) AS average_age
+FROM Sailor
+GROUP BY rating;
+
+C)
+SELECT COUNT(DISTINCT name) AS distinct_names_count
+FROM Sailor;
+
+D)
+SELECT AVG(rating) AS average_rating, MIN(rating) AS min_rating, MAX(rating) AS max_rating
+FROM Sailor;
+
+E)
+SELECT name
+FROM Sailor
+WHERE name LIKE 'P%i';
+
+F)
+SELECT name
+FROM Sailor
+WHERE name LIKE '%ya%';
+
+G)
+SELECT name, age
+FROM Sailor
+WHERE age LIKE '%2%';
+
+I)
+SELECT name
+FROM Sailor
+WHERE name != 'Priya';
+
+
